@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سنجش‌یار ۱۴۰۵ — پلتفرم هوشمند انتخاب رشته سراسری (کاملاً رایگان)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- Offline Data Bundle -->
+    <script src="data.js" defer></script>
+    <style>
+        :root {
+            --bg-page: #FAF9F6;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: #18181B;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+        .smooth-transition {
+            transition: all 0.2s var(--ease-out-expo);
+        }
+        .card-shadow {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.02);
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; padding: 0 !important; }
+            table { font-size: 10px !important; width: 100% !important; }
+            th, td { padding: 3px 5px !important; border: 1px solid #d4d4d8 !important; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-zinc-900 selection:text-white">
+
+    <!-- Top Minimalist Bar -->
+    <header class="border-b border-zinc-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-40 no-print">
+        <div class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-bold text-xs">
+                    ۱۴
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-semibold tracking-tight text-zinc-900">سنجش‌یار</span>
+                    <span class="text-xs text-zinc-400">/</span>
+                    <span class="text-xs text-zinc-500 font-medium">کنکور ۱۴۰۵</span>
+                </div>
+            </div>
+
+            <!-- Free Badge -->
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-800 text-[11px] font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>کاملاً رایگان و آزاد</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main View -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-6 py-10">
+
+        <!-- Header Intro -->
+        <div class="mb-10 text-center sm:text-right no-print">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900">چیدمان هوشمند انتخاب رشته</h1>
+            <p class="text-xs sm:text-sm text-zinc-500 mt-2 max-w-xl">
+                بر اساس داده‌های رسمی دفترچه‌های سراسری ۱۴۰۵ سازمان سنجش و کف رتبه‌های قبولی مهروماه و کانون. دسترسی کامل به تمامی ۱۵۰ انتخاب.
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <section class="bg-white rounded-2xl border border-zinc-200/90 p-6 sm:p-8 card-shadow mb-8 no-print">
+            <form id="simpleForm" onsubmit="handleFormSubmit(event)" class="space-y-7">
+                
+                <!-- Group Segment Control -->
+                <div>
+                    <label class="block text-xs font-medium text-zinc-500 mb-2.5">گروه آزمایشی کنکور</label>
+                    <div class="grid grid-cols-3 sm:grid-cols-5 gap-2.5" id="groupSelector">
+                        <button type="button" onclick="selectGroup('tajrobi')" data-val="tajrobi" class="group-btn py-2.5 px-3 rounded-xl border text-xs font-medium smooth-transition text-center bg-white border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900">
+                            تجربی
+                        </button>
+                        <button type="button" onclick="selectGroup('riazi')" data-val="riazi" class="group-btn py-2.5 px-3 rounded-xl border text-xs font-semibold smooth-transition text-center bg-zinc-900 border-zinc-900 text-white shadow-sm">
+                            ریاضی
+                        </button>
+                        <button type="button" onclick="selectGroup('ensani')" data-val="ensani" class="group-btn py-2.5 px-3 rounded-xl border text-xs font-medium smooth-transition text-center bg-white border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900">
+                            انسانی
+                        </button>
+                        <button type="button" onclick="selectGroup('honar')" data-val="honar" class="group-btn py-2.5 px-3 rounded-xl border text-xs font-medium smooth-transition text-center bg-white border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900">
+                            هنر
+                        </button>
+                        <button type="button" onclick="selectGroup('zaban')" data-val="zaban" class="group-btn py-2.5 px-3 rounded-xl border text-xs font-medium smooth-transition text-center bg-white border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900 col-span-2 sm:col-span-1">
+                            زبان
+                        </button>
+                    </div>
+                    <input type="hidden" id="selectedGroup" value="riazi">
+                </div>
+
+                <!-- Inputs Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-500 mb-2">رتبه نهایی در سهمیه کارنامه</label>
+                        <div class="relative">
+                            <input type="number" id="fieldRank" value="2500" min="1" max="250000" required class="w-full bg-zinc-50/80 border border-zinc-200 rounded-xl px-4 py-3 text-sm font-semibold tabular-nums text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 focus:outline-none smooth-transition placeholder-zinc-400" placeholder="مثال: ۲۵۰۰">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-500 mb-2">سهمیه قبولی</label>
+                        <select id="fieldQuota" class="w-full bg-zinc-50/80 border border-zinc-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium text-zinc-800 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 focus:outline-none smooth-transition">
+                            <option value="m1">منطقه ۱ (کلان‌شهرها)</option>
+                            <option value="m2" selected>منطقه ۲ (مراکز استان‌ها و شهرهای متوسط)</option>
+                            <option value="m3">منطقه ۳ (مناطق محروم و شهرهای کوچک)</option>
+                            <option value="isargaran_5">ایثارگران ۵ درصد</option>
+                            <option value="isargaran_25">ایثارگران ۲۵ درصد</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Optional Accordion for Province -->
+                <div class="pt-2">
+                    <button type="button" onclick="toggleAdvancedFilters()" class="text-xs font-medium text-zinc-500 hover:text-zinc-800 flex items-center gap-2 smooth-transition focus:outline-none">
+                        <span id="advIcon" class="font-mono text-zinc-400 text-sm">＋</span>
+                        <span>استان بومی و جستجوی رشته (اختیاری)</span>
+                    </button>
+
+                    <div id="advancedBox" class="hidden mt-4 pt-4 border-t border-zinc-100 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-medium text-zinc-500 mb-1.5">استان بومی</label>
+                            <select id="fieldProvince" class="w-full bg-white border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs font-medium">
+                                <option value="تهران" selected>تهران</option>
+                                <option value="اصفهان">اصفهان</option>
+                                <option value="فارس">فارس</option>
+                                <option value="خراسان رضوی">خراسان رضوی</option>
+                                <option value="آذربایجان شرقی">آذربایجان شرقی</option>
+                                <option value="البرز">البرز</option>
+                                <option value="مازندران">مازندران</option>
+                                <option value="گیلان">گیلان</option>
+                                <option value="خوزستان">خوزستان</option>
+                                <option value="قم">قم</option>
+                                <option value="همدان">همدان</option>
+                                <option value="کرمان">کرمان</option>
+                                <option value="یزد">یزد</option>
+                                <option value="قزوین">قزوین</option>
+                                <option value="سمنان">سمنان</option>
+                                <option value="زنجان">زنجان</option>
+                                <option value="مرکزی">مرکزی</option>
+                                <option value="کرمانشاه">کرمانشاه</option>
+                                <option value="کردستان">کردستان</option>
+                                <option value="لرستان">لرستان</option>
+                                <option value="ایلام">ایلام</option>
+                                <option value="اردبیل">اردبیل</option>
+                                <option value="آذربایجان غربی">آذربایجان غربی</option>
+                                <option value="گلستان">گلستان</option>
+                                <option value="بوشهر">بوشهر</option>
+                                <option value="هرمزگان">هرمزگان</option>
+                                <option value="سیستان و بلوچستان">سیستان و بلوچستان</option>
+                                <option value="چهارمحال و بختیاری">چهارمحال و بختیاری</option>
+                                <option value="کهگیلویه و بویراحمد">کهگیلویه و بویراحمد</option>
+                                <option value="خراسان شمالی">خراسان شمالی</option>
+                                <option value="خراسان جنوبی">خراسان جنوبی</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-zinc-500 mb-1.5">فیلتر نام رشته</label>
+                            <input type="text" id="fieldSearch" placeholder="مثلاً مهندسی کامپیوتر" class="w-full bg-white border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-3">
+                    <button type="submit" id="btnSubmit" class="w-full bg-zinc-900 hover:bg-black text-white font-medium py-3.5 px-5 rounded-xl transition duration-150 shadow-sm active:scale-[0.99] text-sm flex items-center justify-center gap-2">
+                        <span>محاسبه رایگان فرم ۱۵۰تایی</span>
+                        <span class="text-zinc-400 font-mono text-xs">↵</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Loading -->
+        <div id="loadingBox" class="hidden py-16 text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-zinc-900 border-t-transparent"></div>
+            <p class="mt-3 text-xs text-zinc-500 font-medium">در حال تحلیل کدهای سازمان سنجش...</p>
+        </div>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="hidden space-y-5">
+            
+            <!-- Controls Bar -->
+            <div class="bg-white rounded-2xl border border-zinc-200/90 p-6 card-shadow no-print space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-100 pb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-sm font-semibold text-zinc-900">فرم پیشنهادی اولویت‌بندی</h2>
+                            <span id="badgeTotal" class="text-[11px] text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md font-mono">150 choices</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mt-1">ترتیب استراتژیک: رؤیایی (۳۰) → منطقی (۷۵) → کف تضمینی (۴۵)</p>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="window.print()" class="px-3.5 py-2 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-xs font-medium smooth-transition flex items-center gap-1.5 shadow-sm">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            <span>پرینت کامل فرم</span>
+                        </button>
+                        <button onclick="downloadCSV()" class="px-3.5 py-2 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-xs font-medium smooth-transition flex items-center gap-1.5 shadow-sm">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>دانلود کامل اکسل</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4 Interactive Filter Pills -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <button type="button" onclick="filterCategory('رؤیایی')" class="p-3.5 rounded-xl border border-purple-100 bg-purple-50/50 hover:bg-purple-50 text-right smooth-transition">
+                        <div class="text-[11px] text-purple-700 font-medium">رؤیایی (۱۰-۳۰٪)</div>
+                        <div id="statDream" class="text-base font-bold text-purple-900 mt-1 tabular-nums">0</div>
+                    </button>
+                    <button type="button" onclick="filterCategory('منطقی')" class="p-3.5 rounded-xl border border-blue-100 bg-blue-50/50 hover:bg-blue-50 text-right smooth-transition">
+                        <div class="text-[11px] text-blue-700 font-medium">منطقی (۳۰-۷۰٪)</div>
+                        <div id="statRealistic" class="text-base font-bold text-blue-900 mt-1 tabular-nums">0</div>
+                    </button>
+                    <button type="button" onclick="filterCategory('قطعی')" class="p-3.5 rounded-xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-50 text-right smooth-transition">
+                        <div class="text-[11px] text-emerald-700 font-medium">تضمینی (>۹۰٪)</div>
+                        <div id="statGuaranteed" class="text-base font-bold text-emerald-900 mt-1 tabular-nums">0</div>
+                    </button>
+                    <button type="button" onclick="filterCategory('همه')" class="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 text-right smooth-transition">
+                        <div class="text-[11px] text-zinc-600 font-medium">همه انتخاب‌ها</div>
+                        <div class="text-base font-bold text-zinc-900 mt-1 tabular-nums">۱۵۰</div>
+                    </button>
+                </div>
+
+                <!-- Instant Search input inside table -->
+                <div>
+                    <input type="text" id="tableFilterInput" oninput="applyTableFilter()" placeholder="جستجوی سریع در دانشگاه، شهر یا کد رشته..." class="w-full bg-zinc-50/80 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs text-zinc-800 placeholder-zinc-400 focus:bg-white focus:border-zinc-900 focus:outline-none smooth-transition">
+                </div>
+            </div>
+
+            <!-- Print Header (only visible on print) -->
+            <div class="print-only mb-6 border-b border-black pb-3 text-center">
+                <h1 class="text-base font-bold">پیش‌نویس فرم انتخاب رشته کنکور سراسری ۱۴۰۵</h1>
+                <div class="flex justify-between text-[11px] mt-2">
+                    <span id="printGroup">-</span>
+                    <span id="printQuota">-</span>
+                    <span id="printRank">-</span>
+                    <span id="printProvince">-</span>
+                </div>
+            </div>
+
+            <!-- Results Table (All 150 rows completely free) -->
+            <div class="bg-white rounded-2xl border border-zinc-200/90 card-shadow overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="border-b border-zinc-200 bg-zinc-50/70 text-zinc-500 text-[11px] font-medium">
+                                <th class="p-3 w-10 text-center">#</th>
+                                <th class="p-3 w-20 text-center font-mono">کد</th>
+                                <th class="p-3">رشته تحصیلی</th>
+                                <th class="p-3">دانشگاه</th>
+                                <th class="p-3 w-24 text-center">دوره</th>
+                                <th class="p-3 w-28 text-center">احتمال</th>
+                                <th class="p-3 w-24 text-center">وضعیت</th>
+                            </tr>
+                        </thead>
+                        <tbody id="choicesTableBody" class="divide-y divide-zinc-100 text-xs font-normal">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sonner-style Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-zinc-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-xl border border-zinc-800 flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-200 transform translate-y-2">
+        <span id="toastIcon">✓</span>
+        <span id="toastMsg">عملیات موفق</span>
+    </div>
+
+    <!-- Minimalist Footer -->
+    <footer class="border-t border-zinc-200/80 py-6 text-center text-xs text-zinc-400 no-print mt-12">
+        <p>سنجش‌یار ۱۴۰۵ — نسخه رایگان و عام‌المنفعه بر اساس داده‌های رسمی سنجش</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        let cachedData = {};
+        let allChoices = [];
+        let filteredCategory = 'همه';
+
+        function showToast(msg, icon = '✓') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            document.getElementById('toastIcon').innerText = icon;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+            }, 3000);
+        }
+
+        function selectGroup(grp) {
+            document.getElementById('selectedGroup').value = grp;
+            document.querySelectorAll('.group-btn').forEach(btn => {
+                if (btn.getAttribute('data-val') === grp) {
+                    btn.className = 'group-btn py-2.5 px-3 rounded-xl border text-xs font-semibold smooth-transition text-center bg-zinc-900 border-zinc-900 text-white shadow-sm';
+                } else {
+                    btn.className = 'group-btn py-2.5 px-3 rounded-xl border text-xs font-medium smooth-transition text-center bg-white border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900';
+                }
+            });
+        }
+
+        function toggleAdvancedFilters() {
+            const box = document.getElementById('advancedBox');
+            const icon = document.getElementById('advIcon');
+            if (box.classList.contains('hidden')) {
+                box.classList.remove('hidden');
+                icon.innerText = '－';
+            } else {
+                box.classList.add('hidden');
+                icon.innerText = '＋';
+            }
+        }
+
+        async function loadGroupData(slug) {
+            if (cachedData[slug]) return cachedData[slug];
+
+            try {
+                const res = await fetch(`data/${slug}.json`);
+                if (res.ok) {
+                    const data = await res.json();
+                    cachedData[slug] = data;
+                    return data;
+                }
+            } catch (e) {
+                console.warn('Fetch fallback to bundle');
+            }
+
+            if (typeof KONKUR_DATA !== 'undefined' && KONKUR_DATA[slug]) {
+                cachedData[slug] = KONKUR_DATA[slug];
+                return cachedData[slug];
+            }
+
+            throw new Error('داده‌ها یافت نشدند.');
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const slug = document.getElementById('selectedGroup').value;
+            const quota = document.getElementById('fieldQuota').value;
+            const rank = parseInt(document.getElementById('fieldRank').value) || 2500;
+            const province = document.getElementById('fieldProvince').value;
+            const search = document.getElementById('fieldSearch').value.trim();
+
+            document.getElementById('loadingBox').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+
+            try {
+                const records = await loadGroupData(slug);
+                const results = calculateRecommendations(records, quota, rank, province, search);
+
+                document.getElementById('loadingBox').classList.add('hidden');
+                document.getElementById('resultsSection').classList.remove('hidden');
+
+                allChoices = results.final_150;
+                renderTable(allChoices, true, results.summary);
+                showToast(`${results.final_150.length} رشته با موفقیت تحلیل شد`);
+            } catch (err) {
+                document.getElementById('loadingBox').classList.add('hidden');
+                showToast('خطا در پردازش داده‌ها', '✕');
+            }
+        }
+
+        function calculateRecommendations(records, quota, rank, province, search) {
+            let effRank = rank;
+            if (quota === 'isargaran_5') effRank = Math.round(rank * 0.72);
+            if (quota === 'isargaran_25') effRank = Math.round(rank * 0.45);
+
+            const scored = [];
+
+            records.forEach(r => {
+                const field = r.f;
+                const rProv = r.p;
+                const admission = r.ad || '';
+
+                if (search && !field.includes(search)) return;
+
+                let rMax = r.m1;
+                if (quota === 'm2') rMax = r.m2 || Math.round(r.m1 * 1.5);
+                if (quota === 'm3') rMax = r.m3 || Math.round(r.m1 * 2.2);
+
+                let rMin = r.mn || Math.max(1, Math.round(rMax * 0.35));
+
+                const isNative = (rProv === province);
+                const nativeBoost = isNative ? 1.25 : 1.0;
+
+                let chancePct = 50;
+                let cat = 'منطقی';
+
+                if (admission.includes('سوابق')) {
+                    chancePct = 98;
+                    cat = 'قطعی';
+                } else {
+                    if (!rMax) return;
+                    const adjMin = Math.round(rMin * nativeBoost);
+                    const adjMax = Math.round(rMax * nativeBoost);
+                    const adjMed = Math.round((adjMin + adjMax) / 2);
+
+                    if (effRank <= adjMin) {
+                        chancePct = Math.min(99, Math.round(90 + (adjMin - effRank) / Math.max(1, adjMin) * 9));
+                        cat = 'قطعی';
+                    } else if (effRank <= adjMed) {
+                        chancePct = Math.round(70 + (adjMed - effRank) / Math.max(1, adjMed - adjMin) * 20);
+                        cat = 'محتمل';
+                    } else if (effRank <= adjMax) {
+                        chancePct = Math.round(35 + (adjMax - effRank) / Math.max(1, adjMax - adjMed) * 35);
+                        cat = 'منطقی';
+                    } else if (effRank <= Math.round(adjMax * 1.35)) {
+                        chancePct = Math.round(10 + (adjMax * 1.35 - effRank) / Math.max(1, adjMax * 0.35) * 25);
+                        cat = 'رؤیایی';
+                    } else {
+                        return;
+                    }
+                }
+
+                const desirability = (5 - (r.t || 3)) * 50;
+
+                scored.push({
+                    code: r.c,
+                    field: field,
+                    university: r.u,
+                    province: rProv,
+                    course: r.cr,
+                    admission: admission,
+                    capacity: r.cp,
+                    chance_pct: chancePct,
+                    category: cat,
+                    is_native_province: isNative,
+                    desirability: desirability
+                });
+            });
+
+            const dreams = scored.filter(x => x.category === 'رؤیایی').sort((a,b) => b.desirability - a.desirability);
+            const reals = scored.filter(x => x.category === 'منطقی' || x.category === 'محتمل').sort((a,b) => b.chance_pct - a.chance_pct);
+            const safes = scored.filter(x => x.category === 'قطعی').sort((a,b) => b.chance_pct - a.chance_pct);
+
+            const limit = 150;
+            const nDream = Math.min(dreams.length, Math.round(limit * 0.20));
+            const nSafe = Math.min(safes.length, Math.round(limit * 0.30));
+            const nReal = Math.min(reals.length, limit - nDream - nSafe);
+
+            let final150 = [...dreams.slice(0, nDream), ...reals.slice(0, nReal), ...safes.slice(0, nSafe)];
+
+            if (final150.length < limit) {
+                const seen = new Set(final150.map(x => x.code));
+                const remaining = [...reals.slice(nReal), ...safes.slice(nSafe), ...dreams.slice(nDream)];
+                for (const item of remaining) {
+                    if (!seen.has(item.code)) {
+                        final150.push(item);
+                        seen.add(item.code);
+                        if (final150.length >= limit) break;
+                    }
+                }
+            }
+
+            final150.forEach((item, idx) => { item.priority = idx + 1; });
+
+            return {
+                final_150: final150,
+                summary: {
+                    dream_count: final150.filter(x => x.category === 'رؤیایی').length,
+                    realistic_count: final150.filter(x => x.category === 'منطقی' || x.category === 'محتمل').length,
+                    guaranteed_count: final150.filter(x => x.category === 'قطعی').length,
+                    effective_rank: effRank
+                }
+            };
+        }
+
+        function renderTable(choices, updateMeta = false, summary = null) {
+            const tbody = document.getElementById('choicesTableBody');
+            tbody.innerHTML = '';
+
+            if (updateMeta && summary) {
+                document.getElementById('badgeTotal').innerText = `${choices.length} انتخاب`;
+                document.getElementById('statDream').innerText = summary.dream_count;
+                document.getElementById('statRealistic').innerText = summary.realistic_count;
+                document.getElementById('statGuaranteed').innerText = summary.guaranteed_count;
+
+                document.getElementById('printGroup').innerText = `گروه: ${document.getElementById('selectedGroup').value}`;
+                document.getElementById('printQuota').innerText = `سهمیه: ${document.getElementById('fieldQuota').value}`;
+                document.getElementById('printRank').innerText = `رتبه: ${document.getElementById('fieldRank').value}`;
+                document.getElementById('printProvince').innerText = `استان: ${document.getElementById('fieldProvince').value}`;
+            }
+
+            // Always display all choices! 100% free
+            choices.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-zinc-50/80 transition-colors duration-100';
+
+                let badge = '<span class="text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded text-[10px] font-medium">عادی</span>';
+                if (c.category === 'رؤیایی') badge = '<span class="text-purple-700 bg-purple-50 border border-purple-200/60 px-2 py-0.5 rounded text-[10px] font-medium">رؤیایی</span>';
+                else if (c.category === 'منطقی') badge = '<span class="text-blue-700 bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded text-[10px] font-medium">منطقی</span>';
+                else if (c.category === 'محتمل') badge = '<span class="text-teal-700 bg-teal-50 border border-teal-200/60 px-2 py-0.5 rounded text-[10px] font-medium">محتمل</span>';
+                else if (c.category === 'قطعی') badge = '<span class="text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded text-[10px] font-medium">تضمینی</span>';
+
+                tr.innerHTML = `
+                    <td class="p-3 text-center text-zinc-400 tabular-nums">${c.priority}</td>
+                    <td class="p-3 font-mono font-medium text-zinc-900 text-center text-[11px]">${c.code}</td>
+                    <td class="p-3 font-medium text-zinc-900">${c.field}</td>
+                    <td class="p-3">
+                        <div class="text-zinc-800">${c.university}</div>
+                        <div class="text-[10px] text-zinc-400">${c.province} ${c.is_native_province ? '<span class="text-emerald-600 font-medium">· بومی</span>' : ''}</div>
+                    </td>
+                    <td class="p-3 text-center text-zinc-500 text-[11px]">${c.course}</td>
+                    <td class="p-3 text-center font-medium tabular-nums text-zinc-800">${c.chance_pct}%</td>
+                    <td class="p-3 text-center">${badge}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterCategory(cat) {
+            filteredCategory = cat;
+            applyTableFilter();
+        }
+
+        function applyTableFilter() {
+            const query = (document.getElementById('tableFilterInput').value || '').trim().toLowerCase();
+            let res = allChoices;
+
+            if (filteredCategory !== 'همه') {
+                if (filteredCategory === 'منطقی') {
+                    res = res.filter(c => c.category === 'منطقی' || c.category === 'محتمل');
+                } else {
+                    res = res.filter(c => c.category === filteredCategory);
+                }
+            }
+
+            if (query) {
+                res = res.filter(c => 
+                    c.field.toLowerCase().includes(query) ||
+                    c.university.toLowerCase().includes(query) ||
+                    c.province.toLowerCase().includes(query) ||
+                    String(c.code).includes(query)
+                );
+            }
+
+            renderTable(res, false);
+        }
+
+        function downloadCSV() {
+            if (!allChoices || allChoices.length === 0) return showToast('ابتدا فرم را ثبت کنید', '!');
+            
+            let csvContent = "\uFEFFاولویت,کد رشته,رشته تحصیلی,دانشگاه,استان,دوره,شانس قبولی,دسته\n";
+            allChoices.forEach(c => {
+                csvContent += `${c.priority},${c.code},"${c.field}","${c.university}","${c.province}",${c.course},${c.chance_pct}%,${c.category}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'entekhab_reshteh_1405.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('کل ۱۵۰ انتخاب دانلود شد');
+        }
+    </script>
+</body>
+</html>
